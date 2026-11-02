@@ -55,6 +55,10 @@ pub(crate) enum Outcome {
     /// name, so it cannot prove the value safe. Never silently passes;
     /// escapes only through an explicit `managed` block (HYB-E3005 / FC).
     Unproven(UnprovenInfo),
+    /// The value is not proven sendable, but the current scope allows
+    /// falling back to sequential execution instead of a hard error.
+    /// This is used in "serial-by-default" fork-join scopes (#1962).
+    Sequential(RejectInfo),
 }
 
 pub(crate) struct UnprovenInfo {
